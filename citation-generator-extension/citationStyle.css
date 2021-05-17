@@ -1,0 +1,14 @@
+.panel-body {
+    height: 90%;
+    font: caption;
+    background-color: #57c3e7;
+  }
+
+  .content{
+    margin: 2em 2em 0 2em;
+}
+.citation-list{
+    margin: 2em 2em 0 2em;
+    height: 60%;
+    width: 80%;
+}

@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+    "name": "dummy name",
+    "description": "dummy desc",
+    "version": "0.1",
+    
+    "sidebar_action": {
+      "default_icon": "icons/citethis.png",
+      "default_title" : "dummy title",
+      "default_panel": "citation.html"
+    }
+
+  }
+  
