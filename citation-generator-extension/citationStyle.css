@@ -1,14 +1,47 @@
 .panel-body {
-    height: 90%;
-    font: caption;
-    background-color: #57c3e7;
+    background-color: #0080FF;
+    height: 100%;
   }
 
-  .content{
-    margin: 2em 2em 0 2em;
+/* tab title style */
+.nav-tabs .nav-item .nav-link {
+  background-color: #0080FF;
+  color: #ffffff;
+  font-size:16px;
+  text-align: center;
 }
+
+/* unactive tab title style */
+.nav-tabs .nav-link:not(.active) {
+  border-color: transparent !important;
+}
+
+/* active tab title style */
+.nav-tabs .nav-item .nav-link.active {
+  color: #0080FF;
+  background-color: #ffffff;
+  height: 100%;
+}
+
+/* tab content style */
+.tab-content .tab-pane {
+  background-color: #ffffff;
+  color: #0080FF;
+  height: 100%;
+}
+
+.tab-content{
+  height: 100%;
+}
+
+/* for list of citation textarea */
 .citation-list{
-    margin: 2em 2em 0 2em;
-    height: 60%;
-    width: 80%;
+  margin: 1.7em 1em 0 1em;
+  height: 100%;
+  width: auto;
+}
+
+.btn{
+  width: 100%;
+  padding: 5px;
 }

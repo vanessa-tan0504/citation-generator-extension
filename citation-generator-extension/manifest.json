@@ -1,14 +1,21 @@
 {
-    "manifest_version": 2,
-    "name": "dummy name",
-    "description": "dummy desc",
-    "version": "0.1",
-    
-    "sidebar_action": {
-      "default_icon": "icons/citethis.png",
-      "default_title" : "dummy title",
-      "default_panel": "citation.html"
-    }
-
-  }
-  
+  "manifest_version": 2,
+  "name": "Ez Citation",
+  "description": "dummy desc",
+  "version": "0.1",
+  "icons": {
+    "16": "img/logo.png",
+    "48": "img/logo.png",
+    "128": "img/logo.png"
+  },
+  "sidebar_action": {
+    "default_icon": "img/logo.png",
+    "default_title": "Ez Citation",
+    "default_panel": "citation.html"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "notifications",
+    "storage"
+  ]
+}
