@@ -1,5 +1,7 @@
 $(document).ready(function () {
     //variables
+    var settingButton = '.setting-button';
+
     var webExportBtn = "#website-export";
     var webCopyBtn = "#website-copy";
     var webPreview = "#website-preview";
@@ -30,6 +32,39 @@ $(document).ready(function () {
     $("#journal-style").on('change', function () {
 
         $("#journal-preview").val($("#journal-style option:selected").text());
+    });
+
+
+    //--------------------------Setting--------------------------------------------------
+
+    //setting button popout toggle
+    $(settingButton).click(function (e) {
+        e.preventDefault();
+        if ($(this).hasClass('selected')) {
+            $('.setting-dialog').slideFadeToggle(function (e) {
+                $(settingButton).removeClass('selected');
+            });
+
+        } else {
+            $(this).addClass('selected');
+            $('.setting-dialog').slideFadeToggle();
+        }
+        return false;
+    });
+
+    //radio button to enable default / dark mode
+    $("#setting-radio").change(function (e) {
+        e.preventDefault();
+
+        var selected_val = $("input[name='themeRadios']:checked").val();
+        var element = document.body;
+
+        if (selected_val == "2") {
+            $(element).addClass('dark');
+
+        } else if (selected_val == "1") {
+            $(element).removeClass('dark');
+        }
     });
 
     //--------------------------Website --------------------------------------------------
@@ -146,6 +181,7 @@ $(document).ready(function () {
 });
 
 
+// toggle buttons disable/enable
 function manageBtn(txtarea_val, exportBtn, copyBtn) {
     if (txtarea_val != '') {
         $(exportBtn).attr('disabled', false);
@@ -156,6 +192,7 @@ function manageBtn(txtarea_val, exportBtn, copyBtn) {
     }
 }
 
+// export to txt file 
 function exportToFile(list) {
     var element = document.createElement('a');
     element.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(list);
@@ -166,6 +203,7 @@ function exportToFile(list) {
     document.body.removeChild(element);
 }
 
+// copy to clipboard
 function copyToClip(list) {
     list.select();
     var message = document.execCommand('copy');
@@ -182,3 +220,8 @@ function copyToClip(list) {
     }, 3000);
 
 }
+
+// setting dialogbox animation
+$.fn.slideFadeToggle = function (easing, callback) {
+    return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+};

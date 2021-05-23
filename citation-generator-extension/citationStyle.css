@@ -1,3 +1,4 @@
+/*------------------------ default theme --------------------------------*/
 .panel-body {
     background-color: #0080FF;
     height: 100%;
@@ -44,4 +45,134 @@
 .btn{
   width: 100%;
   padding: 5px;
+}
+
+/* setting button design */
+.popup-settings {
+  background: #fff;
+  line-height: 1;
+  overflow: hidden;
+  padding: 0px 2px 6px 8px;
+  position: absolute;
+  right: 0;
+  top: 0px;
+  transition: background-color 0s .2s;
+  z-index: 300;
+  font-size: 20px;
+}
+
+.popup-settings::before {
+	height: 90px;
+	width: 100px;
+    background: #0080FF;
+    box-shadow: 0px -9px 4px -8px rgba(0,0,0,0.31);
+    content: ' ';
+    display: block;
+    pointer-events: none;
+    position: absolute;
+    bottom: -58px;
+    right: 0;
+    transform: rotate(45deg);
+    z-index: 500;
+}
+
+.popup-settings:hover .fa-cog {
+  transform: rotate(20deg);
+  opacity: .499;
+  cursor: pointer;
+}
+.popup-settings:hover .setting-button:hover {
+  opacity: 1;
+}
+
+/*------------------------ dark theme --------------------------------*/
+.dark{
+  background-color:#000000;
+}
+
+/* tab title style */
+.dark .nav-tabs .nav-item .nav-link {
+  background-color: #c7c7c7;
+  color: #000;
+}
+
+/* active tab title style */
+.dark .nav-tabs .nav-item .nav-link.active {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: transparent !important;
+}
+
+/* tab content style */
+.dark .tab-content .tab-pane {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* form input style */
+.dark input{
+  background-color:rgba(54, 54, 54, 0.342);
+  color: #ffffff;
+}
+
+.dark select{
+  background-color:rgba(54, 54, 54, 0.342);
+  color: #ffffff;
+}
+
+.dark textarea:read-only{
+  background-color:rgba(97, 97, 97, 0.342);
+  color: #ffffff;
+  border: 1px;
+}
+
+.dark input:focus{
+  background-color:rgba(54, 54, 54, 0.342);
+  color: #ffffff;
+}
+
+.dark select:focus{
+  background-color:rgba(54, 54, 54, 0.342);
+  color: #ffffff;
+}
+
+.dark select option{
+  background-color:#000000;
+}
+
+.dark ::placeholder{
+  color:    #ffffff; 
+}
+
+.dark :-moz-placeholder { /* Mozilla Firefox 4 to 18*/
+  color:    #ffffff; 
+}
+.dark ::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    #ffffff;
+} 
+
+/* setting button design */
+.dark .popup-settings {
+  background: rgb(0, 0, 0);
+  color: #ffffff;
+}
+
+.dark .popup-settings::before {
+    background: #c7c7c7;
+}
+
+/*------------------------ setting dialogbox --------------------------------*/
+
+/* setting popout-dialog design */
+.setting-dialog{
+  background-color:#5c5c5ccc;
+  color: #fff;
+  cursor:default;
+  display:none;
+  margin-top: 37px;
+  position:absolute;
+  width:90px;
+  z-index:50;
+  right: 0;
+  padding: 10px 20px 10px;
 }
