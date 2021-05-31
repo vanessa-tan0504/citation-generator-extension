@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Ez Citation",
-  "description": "dummy desc",
+  "description": "Type and Cite",
   "version": "0.1",
   "icons": {
     "16": "img/logo.png",

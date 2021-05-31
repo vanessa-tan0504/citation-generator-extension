@@ -17,22 +17,168 @@ $(document).ready(function () {
     var slidePreview = "#slideshow-preview";
     var slideCiteList = "#slideshow-list";
 
+    //--------------------------------------Citation Funcs---------------------------------------
+    // TODO: Handle Italics; Handle Multiple Authors; Handle Author Last Name's Dot; Check Date Validation; Use RegEx
+    function cite(type){
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December", 
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                ];
+        var today = new Date();
+        var cite_res = "Complete the required fields";
+
+        switch(type){
+            case 1:
+                return web_res(monthNames, today, cite_res);
+            case 2:
+                return journal_res(monthNames, today, cite_res);
+            case 3:
+                return slide_res(monthNames, today, cite_res);
+            default:
+        }
+    }
+
+    function web_res(monthNames, today, cite_res){
+        var fname = document.getElementById("website-fname").value;
+        var lname = document.getElementById("website-lname").value;
+        var page_title = document.getElementById("website-page").value;
+        var site_title = document.getElementById("website-site").value;
+        var raw_date = document.getElementById("website-date").value;
+        var date = new Date(raw_date);
+        var url = document.getElementById("website-url").value;
+        var style = document.getElementById("website-style").value;                
+
+        if( ((fname.length>0 && lname.length>0) || site_title.length>0) 
+            && page_title.length>0 && url.length>0 && !!date.valueOf() ){
+
+            if(style.toLowerCase() === "harvard"){
+                if(fname.length>0 && site_title.length>0){
+                    cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). <i>'+page_title+'</i> [Online]. '+site_title+'. '
+                    +'Available at: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';
+                }
+                else{
+                    cite_res = site_title+'. ('+date.getFullYear()+'). <i>'+page_title+'</i> [Online]. '+site_title+'. '
+                    +'Available at: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';
+                }
+            }
+            else if(style.toLowerCase() === "apa"){
+                if(fname.length>0 && site_title.length>0){
+                    cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+', '+monthNames[date.getMonth()]+' '+date.getDate()+') '+page_title+'. <i>'+site_title
+                    +'</i>. Retrieved from '+url;
+                }
+                else{
+                    cite_res = site_title+'. ('+date.getFullYear()+', '+monthNames[date.getMonth()]+' '+date.getDate()+') '+page_title+'. <i>'+site_title
+                    +'</i>. Retrieved from '+url;
+                }                       
+            }
+            else{    
+                if(fname.length>0 && site_title.length>0){                   
+                    cite_res = lname+', '+fname+'. "'+page_title+'". <i>'+site_title+"</i>. "+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+                    +': '+url+'. ';
+                }
+                else{
+                    cite_res = site_title+'. "'+page_title+'". <i>'+site_title+"</i>. "+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+                    +': '+url+'. ';
+                }
+            }
+
+            return cite_res;
+        }
+        else{
+            return cite_res;
+        }
+    }
+
+    function journal_res(monthNames, today, cite_res){
+        var fname = document.getElementById("journal-fname").value;
+        var lname = document.getElementById("journal-lname").value;
+        var article = document.getElementById("journal-article").value;
+        var page = document.getElementById("journal-page").value;
+        var journal = document.getElementById("journal-title").value;
+        var raw_date = document.getElementById("journal-date").value;
+        var volume = document.getElementById("journal-vol").value;
+        var issue = document.getElementById("journal-issue").value;
+        var date = new Date(raw_date);
+        var url = document.getElementById("journal-url").value;
+        var style = document.getElementById("journal-style").value;                
+
+        if(fname.length>0 && lname.length>0 && article.length>0 && page.length>0 
+            && journal.length>0 && !!date.valueOf()&& volume.length>0 && issue.length>0 && url.length>0){
+
+            if(style.toLowerCase() === "harvard"){
+                if(url.contains("http")){
+                    cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+') \''+article+'\', <i>'+journal+'</i>, '+volume+'('+issue+'), '+page
+                    +'. [Online] Available at: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';   
+                }
+                else{
+                    cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+') \''+article+'\', <i>'+journal+'</i>, '+volume+'('+issue+'), pp. '+page
+                    +'. [Online] DOI: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').'; 
+                }                            
+            }
+            else if(style.toLowerCase() === "apa"){
+                cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). '+article+'. <i>'+journal+'</i>, '+volume+'('+issue+'), '+page+'. '
+                +url;
+            }
+            else{
+                cite_res = fname+' '+lname+'. "'+article+'." <i>'+journal+'</i>, '+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+                +', pp. '+page+'.';
+            }
+
+            return cite_res;
+        }
+        else{
+            return cite_res;
+        }
+    }
+
+    function slide_res(monthNames, today, cite_res){
+        var fname = document.getElementById("slideshow-fname").value;
+        var lname = document.getElementById("slideshow-lname").value;
+        var title = document.getElementById("slideshow-title").value;
+        var site = document.getElementById("slideshow-site").value;
+        var raw_date = document.getElementById("slideshow-date").value;
+        var date = new Date(raw_date);
+        var url = document.getElementById("slideshow-url").value;
+        var style = document.getElementById("slideshow-style").value;                
+
+        if(fname.length>0 && lname.length>0 && title.length>0 && site.length>0 
+            && !!date.valueOf() && url.length>0){
+
+            if(style.toLowerCase() === "harvard"){
+                cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). \''+title+'\' '+'[PowerPoint presentation]. <i>'+site+'</i>. Available at: '
+                +url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';                                         
+            }
+            else if(style.toLowerCase() === "apa"){
+                cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). <i>'+title+'</i> [PowerPoint slides]. '+site
+                +'. '+url;
+            }
+            else{
+                cite_res = lname+', '+fname+'. "'+title+'." <i>'+site+'</i>, '+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+                +', '+url+'. ';
+            }
+
+            return cite_res;
+        }
+        else{
+            return cite_res;
+        }
+    }
 
     //testing only- can delete
-    $("#website-style").on('change', function () {
+    // $("#website-style").on('change', function () {
 
-        $("#website-preview").val($("#website-style option:selected").text());
-    });
+    //     $("#website-preview").val($("#website-style option:selected").text());
+    // });
 
-    $("#slideshow-style").on('change', function () {
+    // $("#slideshow-style").on('change', function () {
 
-        $("#slideshow-preview").val($("#slideshow-style option:selected").text());
-    });
+    //     $("#slideshow-preview").val($("#slideshow-style option:selected").text());
+    // });
 
-    $("#journal-style").on('change', function () {
+    // $("#journal-style").on('change', function () {
 
-        $("#journal-preview").val($("#journal-style option:selected").text());
-    });
+    //     $("#journal-preview").val($("#journal-style option:selected").text());
+    // });
 
 
     //--------------------------Setting--------------------------------------------------
