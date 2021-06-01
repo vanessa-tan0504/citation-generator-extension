@@ -88,13 +88,14 @@
                 </div>
                 <div class="form-group">
                     <label for="website-preview">Preview</label>
-                    <textarea class="form-control" id="website-preview" rows="1" readonly></textarea>
+                    <p class="form-control" id="website-preview" readonly><br><br></p>
                 </div>
                 <button type="submit" class="btn btn-primary" id="website-add">Add to List</button>
             </form>
 
             <div class="form-group citation-list">
                 <label for="website-list">Citation List</label>
+                <button id="website-clear" class="clear-btn">Clear</button>
                 <textarea class="form-control" id="website-list" rows="4" readonly></textarea>
             </div>
             <div class=" container row text-center" style="padding-bottom: 8px;">
@@ -157,7 +158,7 @@
                 <div class="form-row">
                     <div class="form-group col-sm-6 w-50">
                         <label for="journal-url">Journal DOI/URL</label>
-                        <input type="url" class="form-control" id="journal-url" required />
+                        <input type="text" class="form-control" id="journal-url" required />
                     </div>
                     <div class="form-group w-50">
                         <label for="journal-style">Cite Style</label>
@@ -171,12 +172,13 @@
                 </div>
                 <div class="form-group">
                     <label for="journal-preview">Preview</label>
-                    <textarea class="form-control" id="journal-preview" rows="1" readonly></textarea>
+                    <p class="form-control" id="journal-preview" readonly><br><br></p>
                 </div>
                 <button type="submit" class="btn btn-primary" id="journal-add">Add to List</button>
             </form>
             <div class="form-group citation-list">
                 <label for="journal-list">Citation List</label>
+                <button id="journal-clear" class="clear-btn">Clear</button>
                 <textarea class="form-control" id="journal-list" rows="4" readonly></textarea>
             </div>
             <div class=" container row text-center" style="padding-bottom: 8px;">
@@ -236,12 +238,13 @@
                 </div>
                 <div class="form-group">
                     <label for="slideshow-preview">Preview</label>
-                    <textarea class="form-control" id="slideshow-preview" rows="1" readonly></textarea>
+                    <p class="form-control" id="slideshow-preview" readonly><br><br></p>
                 </div>
                 <button type="submit" class="btn btn-primary" id="slideshow-add">Add to List</button>
             </form>
             <div class="form-group citation-list">
                 <label for="slideshow-list">Citation List</label>
+                <button id="slideshow-clear" class="clear-btn">Clear</button>
                 <textarea class="form-control" id="slideshow-list" rows="4" readonly></textarea>
             </div>
             <div class=" container row text-center" style="padding-bottom: 8px;">
