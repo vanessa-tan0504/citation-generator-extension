@@ -93,6 +93,7 @@
 }
 .clear-btn:hover{
   color: red;
+  cursor: pointer;
 }
 .clear-btn:active{
   color: brown;
@@ -131,6 +132,12 @@
 .dark select{
   background-color:rgba(54, 54, 54, 0.342);
   color: #ffffff;
+}
+
+.dark p:read-only{
+  background-color:rgba(97, 97, 97, 0.342);
+  color: #ffffff;
+  border: 1px;
 }
 
 .dark textarea:read-only{
@@ -174,6 +181,13 @@
     background: #c7c7c7;
 }
 
+.dark .clear-btn{
+  color: red;
+}
+.dark .clear-btn:hover{
+  color: rgb(236, 128, 128);
+}
+
 /*------------------------ setting dialogbox --------------------------------*/
 
 /* setting popout-dialog design */
@@ -188,4 +202,29 @@
   z-index:50;
   right: 0;
   padding: 10px 20px 10px;
+}
+
+.clear-dialog{
+  background-color:#ffffff;
+  color: rgb(0, 0, 0);
+  border: #ff0000;
+  border-style: solid;
+  border-width: thin;
+  box-shadow: 0px 5px 5px grey;
+  cursor:default;
+  display:none;
+  position:absolute;
+  top: 50%;
+  left: 45%;
+  margin-top: -50px;
+  margin-left: -100px;
+  width: 250px;
+  z-index:50;
+  padding: 10px 20px 10px;
+}
+
+.dark .clear-dialog{
+  background-color:#000000;
+  color: rgb(255, 255, 255);
+  box-shadow: 0px 5px 5px rgb(37, 37, 37);
 }
