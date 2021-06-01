@@ -85,6 +85,19 @@
   opacity: 1;
 }
 
+.clear-btn{
+  color: blue;
+  background-color: transparent;
+  border: none;
+  float: right;
+}
+.clear-btn:hover{
+  color: red;
+}
+.clear-btn:active{
+  color: brown;
+}
+
 /*------------------------ dark theme --------------------------------*/
 .dark{
   background-color:#000000;

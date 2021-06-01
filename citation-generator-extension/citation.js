@@ -6,33 +6,32 @@ $(document).ready(function () {
     var webCopyBtn = "#website-copy";
     var webPreview = "#website-preview";
     var webCiteList = "#website-list";
+    var webClearBtn = "#website-clear"
 
     var journalExportBtn = "#journal-export";
     var journalCopyBtn = "#journal-copy";
     var journalPreview = "#journal-preview";
     var journalCiteList = "#journal-list";
+    var journalClearBtn = "#journal-clear"
 
     var slideExportBtn = "#slideshow-export";
     var slideCopyBtn = "#slideshow-copy";
     var slidePreview = "#slideshow-preview";
     var slideCiteList = "#slideshow-list";
+    var slideClearBtn = "#slideshow-clear"
 
-    //testing only- can delete
-    // $("#website-style").on('change', function () {
+    // Handle Citing
+    $("#website-style, #website-fname, #website-lname, #website-page, #website-site, #website-date, #website-url").on('change input', function () {
+        $("#website-preview").html(cite(1));
+    });
 
-    //     $("#website-preview").val($("#website-style option:selected").text());
-    // });
+    $("#journal-style, #journal-fname, #journal-lname, #journal-article, #journal-page, #journal-title, #journal-date, #journal-vol, #journal-issue, #journal-url").on('change input', function () {
+        $("#journal-preview").html(cite(2));
+    });
 
-    // $("#slideshow-style").on('change', function () {
-
-    //     $("#slideshow-preview").val($("#slideshow-style option:selected").text());
-    // });
-
-    // $("#journal-style").on('change', function () {
-
-    //     $("#journal-preview").val($("#journal-style option:selected").text());
-    // });
-
+    $("#slideshow-style, #slideshow-fname, #slideshow-lname, #slideshow-title, #slideshow-site, #slideshow-date, #slideshow-url").on('change input', function () {
+        $("#slideshow-preview").html(cite(3));
+    });
 
     //--------------------------Setting--------------------------------------------------
 
@@ -73,19 +72,34 @@ $(document).ready(function () {
         //remove default submit function (reset form upon submit)
         e.preventDefault();
 
-        //pass preview value into citation list
-        var preview_val = $(webPreview).val();
-        $(webCiteList).text(preview_val);
+        //pass value into citation list
+        var preview_val = $(webPreview).text();
+        var existing_list = $(webCiteList).text();
+        var list_new = existing_list.length<1 ? preview_val : existing_list + '\n\n' + preview_val;
+        if(preview_val !== "Complete the required fields"){
+            if(!is_duplicate(preview_val, existing_list)){
+                $(webCiteList).text(list_new).trigger('focus');
+            }
+            else{
+                browser.notifications.create('EzCitation', {
+                    'type': 'basic',
+                    'title': 'EzCitation',
+                    'iconUrl': 'img/logo.png',
+                    'message': 'Duplicated!'
+                });
+            }  
+        }            
     });
 
     // disable website export & copy button if citation list is empty
     $(webExportBtn).attr('disabled', true);
     $(webCopyBtn).attr('disabled', true);
+    $(webClearBtn).attr('disabled', true);
 
     $(webCiteList).focus(function (e) {
         e.preventDefault();
         var textarea_val = $(webCiteList).val();
-        manageBtn(textarea_val, webExportBtn, webCopyBtn);
+        manageBtn(textarea_val, webExportBtn, webCopyBtn, webClearBtn);
     });
 
     // website export button function
@@ -100,6 +114,11 @@ $(document).ready(function () {
         copyToClip(list);
     });
 
+    // clear button
+    $(webClearBtn).click(function(){
+        webCiteList = clear_list($(webCiteList), $(webCopyBtn), $(webExportBtn), $(webClearBtn));
+    });
+
     //--------------------------Journal --------------------------------------------------
 
     // journal add to citation list
@@ -107,19 +126,34 @@ $(document).ready(function () {
         //remove default submit function (reset form upon submit)
         e.preventDefault();
 
-        //pass preview value into citation list
-        var preview_val = $(journalPreview).val();
-        $(journalCiteList).text(preview_val);
+        //pass value into citation list
+        var preview_val = $(journalPreview).text();
+        var existing_list = $(journalCiteList).text();
+        var list_new = existing_list.length<1 ? preview_val : existing_list + '\n\n' + preview_val;
+        if(preview_val !== "Complete the required fields"){
+            if(!is_duplicate(preview_val, existing_list)){
+                $(journalCiteList).text(list_new).trigger('focus');
+            }
+            else{
+                browser.notifications.create('EzCitation', {
+                    'type': 'basic',
+                    'title': 'EzCitation',
+                    'iconUrl': 'img/logo.png',
+                    'message': 'Duplicated!'
+                });
+            }
+        } 
     });
 
     // disable journal export & copy button if citation list is empty
     $(journalExportBtn).attr('disabled', true);
     $(journalCopyBtn).attr('disabled', true);
+    $(journalClearBtn).attr('disabled', true);
 
     $(journalCiteList).focus(function (e) {
         e.preventDefault();
         var textarea_val = $(journalCiteList).val();
-        manageBtn(textarea_val, journalExportBtn, journalCopyBtn);
+        manageBtn(textarea_val, journalExportBtn, journalCopyBtn, journalClearBtn);
     });
 
     // journal export button function
@@ -132,6 +166,11 @@ $(document).ready(function () {
     $(journalCopyBtn).click(function () {
         var list = $(journalCiteList).select();
         copyToClip(list);
+    });
+
+    // clear button
+    $(journalClearBtn).click(function(){
+        journalCiteList = clear_list($(journalCiteList), $(journalExportBtn), $(journalCopyBtn), $(journalClearBtn));
     });
 
 
@@ -150,19 +189,34 @@ $(document).ready(function () {
         //remove default submit function (reset form upon submit)
         e.preventDefault();
 
-        //pass preview value into citation list
-        var preview_val = $(slidePreview).val();
-        $(slideCiteList).text(preview_val);
+        //pass value into citation list
+        var preview_val = $(slidePreview).text();
+        var existing_list = $(slideCiteList).text();
+        var list_new = existing_list.length<1 ? preview_val : existing_list + '\n\n' + preview_val;
+        if(preview_val !== "Complete the required fields"){
+            if(!is_duplicate(preview_val, existing_list)){
+                $(slideCiteList).text(list_new).trigger('focus');
+            }
+            else{
+                browser.notifications.create('EzCitation', {
+                    'type': 'basic',
+                    'title': 'EzCitation',
+                    'iconUrl': 'img/logo.png',
+                    'message': 'Duplicated!'
+                });
+            }
+        } 
     });
 
     // disable slideshow export & copy button if citation list is empty
     $(slideExportBtn).attr('disabled', true);
     $(slideCopyBtn).attr('disabled', true);
+    $(slideClearBtn).attr('disabled', true);
 
     $(slideCiteList).focus(function (e) {
         e.preventDefault();
         var textarea_val = $(slideCiteList).val();
-        manageBtn(textarea_val, slideExportBtn, slideCopyBtn);
+        manageBtn(textarea_val, slideExportBtn, slideCopyBtn, slideClearBtn);
     });
 
     // slideshow export button function
@@ -177,17 +231,24 @@ $(document).ready(function () {
         copyToClip(list);
     });
 
+    // clear button
+    $(slideClearBtn).click(function(){
+        slideCiteList = clear_list($(slideCiteList), $(slideExportBtn), $(slideCopyBtn), $(slideClearBtn));
+    });
+
 });
 
 
 // toggle buttons disable/enable
-function manageBtn(txtarea_val, exportBtn, copyBtn) {
+function manageBtn(txtarea_val, exportBtn, copyBtn, clearBtn) {
     if (txtarea_val != '') {
         $(exportBtn).attr('disabled', false);
         $(copyBtn).attr('disabled', false);
+        $(clearBtn).attr('disabled', false);
     } else {
         $(exportBtn).attr('disabled', true);
         $(copyBtn).attr('disabled', true);
+        $(clearBtn).attr('disabled', true);
     }
 }
 
@@ -226,14 +287,13 @@ $.fn.slideFadeToggle = function (easing, callback) {
 };
 
 //--------------------------------------Citation Funcs---------------------------------------
-// TODO: Handle Italics; Handle Multiple Authors; Handle Author Last Name's Dot; Check Date Validation; Use RegEx
 function cite(type){
     const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December", 
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
             ];
     var today = new Date();
-    var cite_res = "Complete the required fields";
+    var cite_res = "Complete the required fields<br><br>";
 
     switch(type){
         case 1:
@@ -260,34 +320,37 @@ function web_res(monthNames, today, cite_res){
         && page_title.length>0 && url.length>0 && !!date.valueOf() ){
 
         if(style.toLowerCase() === "harvard"){
-            if(fname.length>0 && site_title.length>0){
-                cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). <i>'+page_title+'</i> [Online]. '+site_title+'. '
+            if(fname.length>0 && lname.length>0 && site_title.length>0){
+                cite_res = lname+', '+handle_mul_names(fname)+'('+date.getFullYear()+'). '+page_title.italics()+' [Online]. '+site_title+'. '
                 +'Available at: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';
             }
             else{
-                cite_res = site_title+'. ('+date.getFullYear()+'). <i>'+page_title+'</i> [Online]. '+site_title+'. '
+                cite_res = site_title+'. ('+date.getFullYear()+'). '+page_title.italics()+' [Online]. '+site_title+'. '
                 +'Available at: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';
             }
         }
         else if(style.toLowerCase() === "apa"){
             if(fname.length>0 && site_title.length>0){
-                cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+', '+monthNames[date.getMonth()]+' '+date.getDate()+') '+page_title+'. <i>'+site_title
-                +'</i>. Retrieved from '+url;
+                cite_res = lname+', '+handle_mul_names(fname)+'('+date.getFullYear()+', '+monthNames[date.getMonth()]+' '+date.getDate()+') '+page_title+'. '+site_title.italics()
+                +'. Retrieved from '+url;
             }
             else{
-                cite_res = site_title+'. ('+date.getFullYear()+', '+monthNames[date.getMonth()]+' '+date.getDate()+') '+page_title+'. <i>'+site_title
-                +'</i>. Retrieved from '+url;
+                cite_res = site_title+'. ('+date.getFullYear()+', '+monthNames[date.getMonth()]+' '+date.getDate()+') '+page_title+'. '+site_title.italics()
+                +'. Retrieved from '+url;
             }                       
         }
-        else{    
+        else if(style.toLowerCase() === "mla"){    
             if(fname.length>0 && site_title.length>0){                   
-                cite_res = lname+', '+fname+'. "'+page_title+'". <i>'+site_title+"</i>. "+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+                cite_res = lname+', '+fname+'. "'+page_title+'". '+site_title.italics()+". "+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
                 +': '+url+'. ';
             }
             else{
-                cite_res = site_title+'. "'+page_title+'". <i>'+site_title+"</i>. "+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+                cite_res = site_title+'. "'+page_title+'". '+site_title.italics()+". "+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
                 +': '+url+'. ';
             }
+        }
+        else{
+            return cite_res;
         }
 
         return cite_res;
@@ -314,22 +377,25 @@ function journal_res(monthNames, today, cite_res){
         && journal.length>0 && !!date.valueOf()&& volume.length>0 && issue.length>0 && url.length>0){
 
         if(style.toLowerCase() === "harvard"){
-            if(url.contains("http")){
-                cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+') \''+article+'\', <i>'+journal+'</i>, '+volume+'('+issue+'), '+page
+            if(url.includes("http")){
+                cite_res = lname+', '+handle_mul_names(fname)+'('+date.getFullYear()+') \''+article+'\', '+journal.italics()+', '+volume+'('+issue+'), '+page
                 +'. [Online] Available at: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';   
             }
             else{
-                cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+') \''+article+'\', <i>'+journal+'</i>, '+volume+'('+issue+'), pp. '+page
+                cite_res = lname+', '+handle_mul_names(fname)+'('+date.getFullYear()+') \''+article+'\', '+journal.italics()+', '+volume+'('+issue+'), pp. '+page
                 +'. [Online] DOI: '+url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').'; 
             }                            
         }
         else if(style.toLowerCase() === "apa"){
-            cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). '+article+'. <i>'+journal+'</i>, '+volume+'('+issue+'), '+page+'. '
+            cite_res = lname+', '+handle_mul_names(fname)+'('+date.getFullYear()+'). '+article+'. '+journal.italics()+', '+volume+'('+issue+'), '+page+'. '
             +url;
         }
-        else{
-            cite_res = fname+' '+lname+'. "'+article+'." <i>'+journal+'</i>, '+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+        else if(style.toLowerCase() === "mla"){
+            cite_res = fname+' '+lname+'. "'+article+'." '+journal.italics()+', '+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
             +', pp. '+page+'.';
+        }
+        else{
+            return cite_res;
         }
 
         return cite_res;
@@ -353,21 +419,57 @@ function slide_res(monthNames, today, cite_res){
         && !!date.valueOf() && url.length>0){
 
         if(style.toLowerCase() === "harvard"){
-            cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). \''+title+'\' '+'[PowerPoint presentation]. <i>'+site+'</i>. Available at: '
+            cite_res = lname+', '+handle_mul_names(fname)+'('+date.getFullYear()+'). \''+title+'\' '+'[PowerPoint presentation]. '+site.italics()+'. Available at: '
             +url+' (Accessed: '+today.getDate()+' '+monthNames[today.getMonth()]+' '+today.getFullYear()+').';                                         
         }
         else if(style.toLowerCase() === "apa"){
-            cite_res = lname+', '+fname.charAt(0)+'. ('+date.getFullYear()+'). <i>'+title+'</i> [PowerPoint slides]. '+site
+            cite_res = lname+', '+handle_mul_names(fname)+'('+date.getFullYear()+'). '+title.italics()+' [PowerPoint slides]. '+site
             +'. '+url;
         }
-        else{
-            cite_res = lname+', '+fname+'. "'+title+'." <i>'+site+'</i>, '+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
+        else if(style.toLowerCase() === "mla"){
+            cite_res = lname+', '+fname+'. "'+title+'." '+site.italics()+', '+date.getDate()+' '+monthNames[date.getMonth()+12]+'. '+date.getFullYear()
             +', '+url+'. ';
+        }
+        else{
+            return cite_res;
         }
 
         return cite_res;
     }
     else{
         return cite_res;
+    }
+}
+
+function handle_mul_names(name){
+    var result = "";
+    if(name.includes(' ')){
+        var all_initial = name.split(' ');
+        for(var i=0; i<all_initial.length; i++){
+            result += all_initial[i].charAt(0) + '. ';
+        }
+        return result;
+    }
+    else{
+        return name.charAt(0) + '. ';
+    }
+}
+
+function is_duplicate(preview_val, existing_list){
+    var all_from_list = existing_list.split('\n');
+    for(var i=0; i<all_from_list.length; i++){
+        if(all_from_list[i] === preview_val){
+            return true;
+        }
+    }
+    return false;
+}
+
+function clear_list(the_list, exp_btn, cpy_btn, clear_btn){
+    var result = window.confirm("Are you sure you want to clear the entire list?");
+    if(result){
+        the_list.text("");
+        manageBtn(the_list.val(),exp_btn,cpy_btn,clear_btn);
+        return the_list;
     }
 }
